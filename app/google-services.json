@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "797243887597",
+    "firebase_url": "https://lovemessages-a691a.firebaseio.com",
+    "project_id": "lovemessages-a691a",
+    "storage_bucket": "lovemessages-a691a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:797243887597:android:12f305b9d7742712",
+        "android_client_info": {
+          "package_name": "com.example.user.lovemessages"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "797243887597-hi4gglqliqet079bs2d358ip0i9ip9vh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.user.lovemessages",
+            "certificate_hash": "1d450b8b5af2d294f177f1dfc3d4e8de0d9daf73"
+          }
+        },
+        {
+          "client_id": "797243887597-3nc00d5s6vb1kt7339j64dmmvjqcqjul.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsIiHMdgACqcoQ6aETjVMvE3zsvqvjuJc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "797243887597-3nc00d5s6vb1kt7339j64dmmvjqcqjul.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

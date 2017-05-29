@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:weightSum="1"
+    tools:context="com.example.user.lovemessages.MainActivity">
+
+
+    <ImageView
+        android:id="@+id/imgWall"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/tim" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/imgKyn"
+            android:layout_width="0dp"
+            android:layout_height="90dp"
+            android:layout_weight="1"
+            android:src="@drawable/tim" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/love" />
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/imgNy"
+            android:layout_width="0dp"
+            android:layout_height="90dp"
+            android:layout_weight="1"
+            android:src="@drawable/tim" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <TextView
+            android:id="@+id/tvKyn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:text="Kyn"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/tvLove"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:text="Love"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/tvNy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:text="Ny"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvDays"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingTop="10dp"
+        android:text="Số ngày bên nhau"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="0dp"
+                android:layout_weight="6"
+                android:layout_height="32dp"
+                android:text="Tình cảm Kyn dành cho Ny"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/imgPlay"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="22dp"
+                android:src="@drawable/play"/>
+
+            <ImageView
+                android:id="@+id/imgStop"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="22dp"
+                android:src="@drawable/stop"/>
+
+            <ImageView
+                android:id="@+id/imgShare"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="22dp"
+                android:src="@drawable/share"/>
+            <ImageView
+                android:id="@+id/imgList"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="22dp"
+                android:src="@drawable/heart"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Tin nhắn yêu thương từ Kyn"
+            android:id="@+id/tvMessage" />
+
+    </LinearLayout>
+
+</LinearLayout>
