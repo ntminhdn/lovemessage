@@ -4,11 +4,14 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.io.Serializable;
 
+import io.realm.Realm;
+import io.realm.RealmObject;
+
 /**
  * Created by User on 23/02/2017.
  */
 @IgnoreExtraProperties
-public class LoveMessage implements Serializable{
+public class LoveMessage {
     private String content;
     private String id;
     private String image;
@@ -21,7 +24,7 @@ public class LoveMessage implements Serializable{
         this.music = music;
     }
 
-    public LoveMessage(){
+    public LoveMessage() {
 
     }
 
@@ -56,4 +59,5 @@ public class LoveMessage implements Serializable{
     public void setMusic(String music) {
         this.music = music;
     }
+
 }

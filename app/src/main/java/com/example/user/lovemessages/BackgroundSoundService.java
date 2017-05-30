@@ -69,7 +69,7 @@ public class BackgroundSoundService extends Service {
             player.prepare();
             player.start();
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Lỗi", Toast.LENGTH_LONG).show();
+
         }
     }
 

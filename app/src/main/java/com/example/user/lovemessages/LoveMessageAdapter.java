@@ -15,6 +15,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.List;
 
 /**
@@ -22,16 +26,16 @@ import java.util.List;
  */
 
 public class LoveMessageAdapter extends RecyclerView.Adapter {
-    List<LoveMessage> objects;
+    List<LoveMessageObject> objects;
 
-    public LoveMessageAdapter(List<LoveMessage> objects) {
+    public LoveMessageAdapter(List<LoveMessageObject> objects) {
         this.objects = objects;
     }
 
     class LoveMessageVH extends RecyclerView.ViewHolder {
         private TextView tvTitle, tvDate, tvContent;
         private ImageView imgItemImage;
-        private LoveMessage message;
+        private LoveMessageObject message;
 
         public LoveMessageVH(final View itemView) {
             super(itemView);
@@ -43,25 +47,19 @@ public class LoveMessageAdapter extends RecyclerView.Adapter {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intentService = new Intent(itemView.getContext(), BackgroundSoundService.class);
-                            intentService.putExtra("music", message.getMusic());
-                            itemView.getContext().startService(intentService);
-                        }
-                    }).start();
+
+                    Intent intentService = new Intent(itemView.getContext(), BackgroundSoundService.class);
+                    intentService.putExtra("music", message.getMusic());
+                    itemView.getContext().startService(intentService);
 
                     Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
                     intent.putExtra("id", message.getId());
-                    intent.putExtra("content", message.getContent());
-                    intent.putExtra("image", message.getImage());
                     itemView.getContext().startActivity(intent);
                 }
             });
         }
 
-        public void setData(LoveMessage loveMessage) {
+        public void setData(LoveMessageObject loveMessage) {
             message = loveMessage;
 
             if (loveMessage.getImage() == null) {
@@ -72,8 +70,7 @@ public class LoveMessageAdapter extends RecyclerView.Adapter {
 
             tvTitle.setText(loveMessage.getId());
             tvContent.setText(loveMessage.getContent());
-            tvDate.setText(MainActivity.getNgayHienTai().substring(0, MainActivity.getNgayHienTai().indexOf(" ")));
-
+            tvDate.setText(String.valueOf(Utility.countDays(Utility.convertToDate(loveMessage.getId()))));
         }
     }
 

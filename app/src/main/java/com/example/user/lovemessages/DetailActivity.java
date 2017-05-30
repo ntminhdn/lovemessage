@@ -13,14 +13,18 @@ import com.squareup.picasso.Picasso;
 
 import java.net.URL;
 
+import io.realm.Realm;
+
 /**
  * Created by User on 27/02/2017.
  */
 
 public class DetailActivity extends AppCompatActivity {
-    Intent intent;
-    ImageView imgImage;
-    TextView tvDetailMessage,tvID;
+    private ImageView imgImage;
+    private TextView tvDetailMessage, tvID;
+    private LoveMessageObject message;
+    private String id = "";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +32,6 @@ public class DetailActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        intent = getIntent();
         addControl();
         setControl();
     }
@@ -43,18 +46,14 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void setControl() {
-        if(intent != null){
-            String id = intent.getStringExtra("id");
-            String content = intent.getStringExtra("content");
-            String image = intent.getStringExtra("image");
-            tvID.setText(id);
-            tvDetailMessage.setText(content);
-            hienThiAnh(image);
+        if(getIntent() != null) {
+            id = getIntent().getStringExtra("id");
         }
-    }
 
-    private void hienThiAnh(String url) {
-        Picasso.with(this).load(url).into(imgImage);
+        message = Realm.getDefaultInstance().where(LoveMessageObject.class).equalTo("id", id).findFirst();
+        tvID.setText(message.getId());
+        tvDetailMessage.setText(message.getContent());
+        Picasso.with(this).load(message.getImage()).into(imgImage);
     }
 
     private void addControl() {
