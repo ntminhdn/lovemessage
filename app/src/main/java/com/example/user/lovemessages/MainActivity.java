@@ -56,6 +56,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.jar.*;
 
+import io.realm.Realm;
+
 public class MainActivity extends AppCompatActivity {
 
     ImageView imgKyn, imgNy, imgWall, imgPlay, imgShare, imgStop, imgList;
@@ -73,10 +75,15 @@ public class MainActivity extends AppCompatActivity {
     LoveMessage loveMessage;
     String id = "", content = "", image = "", music = "";
 
+    private Realm realm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         JodaTimeAndroid.init(this);
+        Realm.init(this);
+        realm = Realm.getDefaultInstance();
+
 //        player.setAudioStreamType(AudioManager.STREAM_MUSIC);
 //        player.setLooping(true);
         startAt6();
@@ -87,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
         //nhận data từ Alarm
         Intent intent = getIntent();
-        if (intent.getStringExtra("id") != null || intent.getStringExtra("content") != null) {
+        if (intent != null) {
             id = intent.getStringExtra("id");
             content = intent.getStringExtra("content");
             image = intent.getStringExtra("image");
@@ -481,7 +488,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static String getNgayHienTai() {
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         DateTime dt = new DateTime();
         return df.format(dt.toDate());
     }

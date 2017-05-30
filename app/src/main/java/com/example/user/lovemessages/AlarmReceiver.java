@@ -131,11 +131,11 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     public void setData(){
         //hàm chuẩn đúng 7h30 mỗi ngày bắt đầu từ 8/3
-//        mapNgayThang.put(getKey(),getValue());
+        mapNgayThang.put(getKey(),getValue());
 
-        mapNgayThang.put("28-02-2017 07:30","0");
-        mapNgayThang.put("01-03-2017 07:30","1");
-        mapNgayThang.put("02-03-2017 07:30","2");
+//        mapNgayThang.put("28-02-2017 07:30","0");
+//        mapNgayThang.put("01-03-2017 07:30","1");
+//        mapNgayThang.put("02-03-2017 07:30","2");
     }
 
     //hàm get node của child firebase
@@ -155,6 +155,6 @@ public class AlarmReceiver extends BroadcastReceiver {
     public String getKey(){
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         DateTime dt = new DateTime();
-        return df.format(dt.toDate()) + " 7:30";
+        return df.format(dt.toDate());
     }
 }

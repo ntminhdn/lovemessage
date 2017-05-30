@@ -14,12 +14,14 @@
     <TextView
         android:id="@+id/tvID"
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         android:text="Tất cả tình cảm Kyn dành cho Ny"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvDetailMessage"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_margin="20dp" />
 </LinearLayout>

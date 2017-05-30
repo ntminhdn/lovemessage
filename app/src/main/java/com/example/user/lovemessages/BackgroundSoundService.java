@@ -19,22 +19,27 @@ public class BackgroundSoundService extends Service {
 
         return null;
     }
+
     @Override
     public void onCreate() {
         super.onCreate();
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
         player.setLooping(true); // Set looping
     }
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        String music = intent.getStringExtra("music");
 
-        playMusic(music);
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent != null) {
+            String music = intent.getStringExtra("music");
+            playMusic(music);
+        }
+
         return 1;
     }
 
     public void onStart(Intent intent, int startId) {
         // TO DO
     }
+
     public IBinder onUnBind(Intent arg0) {
         // TO DO Auto-generated method
         return null;
@@ -43,9 +48,11 @@ public class BackgroundSoundService extends Service {
     public void onStop() {
 
     }
+
     public void onPause() {
 
     }
+
     @Override
     public void onDestroy() {
         stopMusic();

@@ -1,8 +1,13 @@
 package com.example.user.lovemessages;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -18,51 +23,60 @@ import java.util.ArrayList;
 
 public class ListMessageActivity extends AppCompatActivity {
     DatabaseReference database;
-    Intent intentService;
     ArrayList<LoveMessage> listMessages = new ArrayList<>();
     LoveMessageAdapter adapterMessage;
-    ListView lvMessage;
+    RecyclerView lvMessage;
     int node = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_message);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         addControl();
         addEvent();
     }
 
-    private void addEvent() {
-        lvMessage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        intentService = new Intent(getApplicationContext(), BackgroundSoundService.class);
-                        intentService.putExtra("music", adapterMessage.getItem(position).getMusic());
-                        startService(intentService);
-                    }
-                }).start();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+        return true;
+    }
 
-                Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
-                intent.putExtra("id", adapterMessage.getItem(position).getId());
-                intent.putExtra("content", adapterMessage.getItem(position).getContent());
-                intent.putExtra("image", adapterMessage.getItem(position).getImage());
-                startActivity(intent);
-            }
-        });
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void addEvent() {
+
     }
 
     private void addControl() {
-        lvMessage = (ListView) findViewById(R.id.lvMessage);
-        adapterMessage = new LoveMessageAdapter(ListMessageActivity.this,R.layout.item_list_message,listMessages);
+        lvMessage = (RecyclerView) findViewById(R.id.lvMessage);
+        lvMessage.setLayoutManager(new LinearLayoutManager(this));
+        lvMessage.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+                outRect.set(10, 10, 10, 10);
+            }
+        });
+        adapterMessage = new LoveMessageAdapter(listMessages);
         lvMessage.setAdapter(adapterMessage);
         database = FirebaseDatabase.getInstance().getReference();
         node = Integer.parseInt(AlarmReceiver.getValue());
 
         //tạm thời để từ 0 đến 3 sau này sửa từ 0 đến node
-        for (int i = 0; i < 3; i++) {
-            System.out.println(i+"   ====================");
+        for (int i = 0; i < node; i++) {
+            System.out.println(i + "   ====================");
             database.child(String.valueOf(i)).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {

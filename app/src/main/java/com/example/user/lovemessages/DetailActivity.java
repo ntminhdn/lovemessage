@@ -5,8 +5,11 @@ import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.net.URL;
 
@@ -22,9 +25,21 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         intent = getIntent();
         addControl();
         setControl();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setControl() {
@@ -39,8 +54,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void hienThiAnh(String url) {
-        new DownloadImageTask(imgImage)
-                .execute(url);
+        Picasso.with(this).load(url).into(imgImage);
     }
 
     private void addControl() {

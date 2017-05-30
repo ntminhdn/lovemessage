@@ -1,27 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<ImageView
-    android:id="@+id/imgItemImage"
-    android:layout_width="70dp"
-    android:layout_height="70dp"
-    android:src="@drawable/tim"/>
-    <LinearLayout
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgItemImage"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginRight="20dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/tim" />
+
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
-            android:layout_height="30dp" />
+            android:layout_height="30dp"
+            android:layout_toRightOf="@+id/imgItemImage"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/tvDate"
             android:layout_width="match_parent"
-            android:layout_height="20dp" />
+            android:layout_height="20dp"
+            android:layout_below="@+id/tvTitle"
+            android:layout_toRightOf="@+id/imgItemImage"
+            android:textStyle="italic" />
+
         <TextView
             android:id="@+id/tvContent"
             android:layout_width="match_parent"
-            android:layout_height="20dp" />
-    </LinearLayout>
-</LinearLayout>
+            android:layout_height="20dp"
+            android:layout_below="@+id/tvDate"
+            android:layout_toRightOf="@+id/imgItemImage" />
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
