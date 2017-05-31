@@ -15,20 +15,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmList;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by minh.nt on 5/30/2017.
@@ -39,7 +30,7 @@ public class ListMessageFragment extends Fragment implements SearchView.OnQueryT
     private RecyclerView lvMessage;
     private RealmResults<LoveMessageObject> list;
     private SearchView searchView;
-    private List<LoveMessageObject> temp = new ArrayList<>();
+    private RealmList<LoveMessageObject> temp = new RealmList<>();
 
     @Nullable
     @Override
@@ -64,7 +55,15 @@ public class ListMessageFragment extends Fragment implements SearchView.OnQueryT
                 outRect.set(10, 10, 10, 10);
             }
         });
-        list = Realm.getDefaultInstance().where(LoveMessageObject.class).findAllSorted("days");
+        list = Realm.getDefaultInstance().where(LoveMessageObject.class).findAllSorted("days", Sort.DESCENDING);
+        list.addChangeListener(new RealmChangeListener<RealmResults<LoveMessageObject>>() {
+            @Override
+            public void onChange(RealmResults<LoveMessageObject> element) {
+                temp.clear();
+                temp.addAll(element);
+                adapterMessage.notifyDataSetChanged();
+            }
+        });
         temp.addAll(list);
         adapterMessage = new LoveMessageAdapter(temp);
         lvMessage.setAdapter(adapterMessage);
@@ -99,6 +98,7 @@ public class ListMessageFragment extends Fragment implements SearchView.OnQueryT
                 temp.add(message);
             }
         }
+
         adapterMessage.notifyDataSetChanged();
     }
 }

@@ -65,7 +65,8 @@
                 android:layout_marginTop="15dp"
                 android:layout_weight="1"
                 android:text="Kyn"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@color/tabcolor" />
 
             <TextView
                 android:id="@+id/tvLove"
@@ -74,7 +75,8 @@
                 android:layout_marginTop="15dp"
                 android:layout_weight="1"
                 android:text="Love"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@color/blue" />
 
             <TextView
                 android:id="@+id/tvNy"
@@ -83,7 +85,8 @@
                 android:layout_marginTop="15dp"
                 android:layout_weight="1"
                 android:text="Ny"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@color/tabcolor" />
         </LinearLayout>
 
         <TextView
@@ -94,6 +97,7 @@
             android:paddingTop="10dp"
             android:text="Số ngày bên nhau"
             android:textAlignment="center"
+            android:textColor="@color/blue"
             android:textSize="24sp" />
 
 

@@ -2,51 +2,33 @@ package com.example.user.lovemessages;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import net.danlew.android.joda.JodaTimeAndroid;
-
 import org.joda.time.DateTime;
-import org.joda.time.Days;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 
 import io.realm.Realm;
 
@@ -146,6 +128,8 @@ public class MainFragment extends Fragment {
                     Intent intent = new Intent(getContext(), DetailActivity.class);
                     intent.putExtra("id", message.getId());
                     startActivity(intent);
+                } else {
+                    Utility.showMessage(getContext(), "Lỗi: Kiểm tra lại Internet");
                 }
             }
         });
@@ -345,7 +329,18 @@ public class MainFragment extends Fragment {
 
     private void init() {
         message = Realm.getDefaultInstance().where(LoveMessageObject.class).equalTo("id", Utility.getNgayHienTai()).findFirst();
-//        tvMessage.setText(message.getContent());
+
+        if (message != null) {
+            tvMessage.setText(message.getContent());
+        }
+
+        // Lắng nghe khi MainActivity get message xong
+        ((MainActivity) getActivity()).setListener(new MainActivity.GotMessageListener() {
+            @Override
+            public void gotMessageListener(String content) {
+                tvMessage.setText(content);
+            }
+        });
 
         //đếm ngày hiển thị lên view
         tvDays.setText(Utility.countDays(new DateTime()) + " ngày bên nhau");

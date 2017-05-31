@@ -1,34 +1,25 @@
 package com.example.user.lovemessages;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
-import java.util.List;
+import io.realm.RealmList;
 
 /**
  * Created by User on 28/02/2017.
  */
 
 public class LoveMessageAdapter extends RecyclerView.Adapter {
-    List<LoveMessageObject> objects;
+    private RealmList<LoveMessageObject> objects = new RealmList<>();
 
-    public LoveMessageAdapter(List<LoveMessageObject> objects) {
+    public LoveMessageAdapter(RealmList<LoveMessageObject> objects) {
         this.objects = objects;
     }
 
@@ -70,7 +61,7 @@ public class LoveMessageAdapter extends RecyclerView.Adapter {
 
             tvTitle.setText(loveMessage.getId());
             tvContent.setText(loveMessage.getContent());
-            tvDate.setText(String.valueOf(Utility.countDays(Utility.convertToDate(loveMessage.getId()))));
+            tvDate.setText(String.valueOf(Utility.countDays(Utility.convertToDate(loveMessage.getId()))) + " ngày bên nhau");
         }
     }
 

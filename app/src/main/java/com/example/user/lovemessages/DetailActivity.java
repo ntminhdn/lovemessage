@@ -1,7 +1,5 @@
 package com.example.user.lovemessages;
 
-import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -10,8 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-
-import java.net.URL;
 
 import io.realm.Realm;
 
@@ -46,14 +42,18 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void setControl() {
-        if(getIntent() != null) {
+        if (getIntent() != null) {
             id = getIntent().getStringExtra("id");
         }
 
         message = Realm.getDefaultInstance().where(LoveMessageObject.class).equalTo("id", id).findFirst();
         tvID.setText(message.getId());
         tvDetailMessage.setText(message.getContent());
-        Picasso.with(this).load(message.getImage()).into(imgImage);
+        if (message.getImage() != null && Utility.isNetworkAvailable(this)) {
+            Picasso.with(this).load(message.getImage()).into(imgImage);
+        } else {
+            imgImage.setImageResource(R.drawable.tim);
+        }
     }
 
     private void addControl() {
