@@ -40,7 +40,6 @@ public class MainFragment extends Fragment {
     private ImageView imgKyn, imgNy, imgWall, imgPlay;
     private TextView tvKyn, tvNy, tvLove, tvDays;
     private TextView tvMessage;
-    private Intent intentService;
     private String userChoosenTask;
     private final int REQUEST_CAMERA_WALL = 1, SELECT_FILE_WALL = 4;
     private final int REQUEST_CAMERA_KYN = 2, SELECT_FILE_KYN = 5;
@@ -120,13 +119,10 @@ public class MainFragment extends Fragment {
         imgPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (message != null) {
-                    intentService = new Intent(getContext(), BackgroundSoundService.class);
-                    intentService.putExtra("music", message.getMusic());
-                    getContext().startService(intentService);
-
+                if (message != null || Utility.isNetworkAvailable(getContext())) {
                     Intent intent = new Intent(getContext(), DetailActivity.class);
                     intent.putExtra("id", message.getId());
+                    intent.putExtra("music", message.getMusic());
                     startActivity(intent);
                 } else {
                     Utility.showMessage(getContext(), "Lỗi: Kiểm tra lại Internet");

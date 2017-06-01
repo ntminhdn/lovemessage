@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import io.realm.Realm;
 import io.realm.RealmList;
 
 /**
@@ -38,14 +39,14 @@ public class LoveMessageAdapter extends RecyclerView.Adapter {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    Intent intentService = new Intent(itemView.getContext(), BackgroundSoundService.class);
-                    intentService.putExtra("music", message.getMusic());
-                    itemView.getContext().startService(intentService);
-
-                    Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
-                    intent.putExtra("id", message.getId());
-                    itemView.getContext().startActivity(intent);
+                    if (Utility.isNetworkAvailable(itemView.getContext())) {
+                        Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
+                        intent.putExtra("id", message.getId());
+                        intent.putExtra("music", message.getMusic());
+                        itemView.getContext().startActivity(intent);
+                    } else {
+                        Utility.showMessage(itemView.getContext(), "Lỗi: Kiểm tra lại Internet");
+                    }
                 }
             });
         }

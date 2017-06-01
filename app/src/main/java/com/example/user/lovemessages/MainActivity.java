@@ -130,7 +130,14 @@ public class MainActivity extends AppCompatActivity {
                     if (progressDialog.isShowing() && countMessage == (Integer.valueOf(Utility.getValue()) + 1)) {
                         rms.increaseNumberOfLaunchApp();
                         progressDialog.dismiss();
+
                         Log.d(LOG_TAG, "After check and down");
+                    }
+
+                    if (message.getDays() == Utility.countDays(new DateTime())) {
+                        // notify.
+                        listener.gotMessageListener(message.getContent());
+                        notifyMessage(message);
                     }
                 }
 
@@ -175,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
 
                         // notify.
                         listener.gotMessageListener(message.getContent());
-                        notifyMessage();
+                        notifyMessage(message);
                     }
 
                     @Override
@@ -187,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void notifyMessage() {
+    private void notifyMessage(LoveMessageObject loveMessage) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
@@ -211,5 +218,4 @@ public class MainActivity extends AppCompatActivity {
     public void setListener(GotMessageListener listener) {
         this.listener = listener;
     }
-
 }

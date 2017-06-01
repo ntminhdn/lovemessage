@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -32,6 +33,22 @@ public class ListMessageFragment extends Fragment implements SearchView.OnQueryT
     private SearchView searchView;
     private RealmList<LoveMessageObject> temp = new RealmList<>();
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        list = Realm.getDefaultInstance().where(LoveMessageObject.class).findAllSorted("days", Sort.DESCENDING);
+        list.addChangeListener(new RealmChangeListener<RealmResults<LoveMessageObject>>() {
+            @Override
+            public void onChange(RealmResults<LoveMessageObject> element) {
+                temp.clear();
+                temp.addAll(element);
+                adapterMessage.notifyDataSetChanged();
+            }
+        });
+        temp.addAll(list);
+        adapterMessage = new LoveMessageAdapter(temp);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,17 +72,7 @@ public class ListMessageFragment extends Fragment implements SearchView.OnQueryT
                 outRect.set(10, 10, 10, 10);
             }
         });
-        list = Realm.getDefaultInstance().where(LoveMessageObject.class).findAllSorted("days", Sort.DESCENDING);
-        list.addChangeListener(new RealmChangeListener<RealmResults<LoveMessageObject>>() {
-            @Override
-            public void onChange(RealmResults<LoveMessageObject> element) {
-                temp.clear();
-                temp.addAll(element);
-                adapterMessage.notifyDataSetChanged();
-            }
-        });
-        temp.addAll(list);
-        adapterMessage = new LoveMessageAdapter(temp);
+
         lvMessage.setAdapter(adapterMessage);
     }
 
