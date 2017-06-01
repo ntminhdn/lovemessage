@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import io.realm.RealmList;
 
@@ -53,14 +53,22 @@ public class LoveMessageAdapter extends RecyclerView.Adapter {
         public void setData(LoveMessageObject loveMessage) {
             message = loveMessage;
 
+
             if (loveMessage.getImage() == null) {
                 imgItemImage.setImageResource(R.drawable.tim);
             } else {
-                Picasso.with(itemView.getContext()).load(loveMessage.getImage()).into(imgItemImage);
-            }
+//                    Picasso.with(itemView.getContext()).load(message.getImage()).into(imgItemImage);
 
+                Glide.with(itemView.getContext())
+                        .load(loveMessage.getImage())
+                        .thumbnail(Glide.with(itemView.getContext()).load(R.drawable.loading_spinner))
+                        .fitCenter()
+                        .crossFade()
+                        .into(imgItemImage);
+            }
             tvTitle.setText(loveMessage.getId());
             tvContent.setText(loveMessage.getContent());
+
             tvDate.setText(String.valueOf(Utility.countDays(Utility.convertToDate(loveMessage.getId()))) + " ngày bên nhau");
         }
     }

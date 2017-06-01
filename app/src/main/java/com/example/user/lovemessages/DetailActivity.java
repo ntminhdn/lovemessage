@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import io.realm.Realm;
 
@@ -50,7 +50,14 @@ public class DetailActivity extends AppCompatActivity {
         tvID.setText(message.getId());
         tvDetailMessage.setText(message.getContent());
         if (message.getImage() != null && Utility.isNetworkAvailable(this)) {
-            Picasso.with(this).load(message.getImage()).into(imgImage);
+//            Picasso.with(this).load(message.getImage()).into(imgImage);
+
+            Glide.with(this)
+                    .load(message.getImage())
+                    .thumbnail(Glide.with(this).load(R.drawable.loading_spinner))
+                    .fitCenter()
+                    .crossFade()
+                    .into(imgImage);
         } else {
             imgImage.setImageResource(R.drawable.tim);
         }
