@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     private GotMessageListener listener;
     private List<LoveMessageObject> listMessage = new ArrayList<>();
     private ProgressDialog progressDialog;
-    private boolean isSaved = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,47 +149,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getMessageAndSave() {
-        if (!isSaved) {
-            message = Realm.getDefaultInstance().where(LoveMessageObject.class).equalTo("id", Utility.getNgayHienTai()).findFirst();
-            if (message == null) {
-                progressDialog.setTitle("Đang tải tin nhắn của hôm nay");
-                progressDialog.setMessage("Vui lòng đợi");
+        message = Realm.getDefaultInstance().where(LoveMessageObject.class).equalTo("id", Utility.getNgayHienTai()).findFirst();
+        if (message == null) {
+            progressDialog.setTitle("Đang tải tin nhắn của hôm nay");
+            progressDialog.setMessage("Vui lòng đợi");
 
-                if (!progressDialog.isShowing()) {
-                    progressDialog.show();
+            if (!progressDialog.isShowing()) {
+                progressDialog.show();
+            }
+
+            mDatabase.child(Utility.getValue()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    // thêm message hôm nay vào DB.
+                    loveMessage = dataSnapshot.getValue(LoveMessage.class);
+                    message = new LoveMessageObject(loveMessage.getContent(), loveMessage.getId(), loveMessage.getImage(), loveMessage.getMusic());
+                    message.saveOrUpdate();
+
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                        Log.d(LOG_TAG, "After check and get");
+                    }
+
+                    // Nếu tính đến hôm nay lượng message ko đủ thì download.
+                    if (realm.where(LoveMessageObject.class).findAll().size() != (Utility.countDays(new DateTime()) - 721 + 1)) {
+                        Log.d(LOG_TAG, "Not enough and down");
+                        downloadMessageAndSave();
+                    }
+
+                    // notify.
+                    listener.gotMessageListener(message.getContent());
+                    notifyMessage(message);
                 }
 
-                mDatabase.child(Utility.getValue()).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        // thêm message hôm nay vào DB.
-                        loveMessage = dataSnapshot.getValue(LoveMessage.class);
-                        message = new LoveMessageObject(loveMessage.getContent(), loveMessage.getId(), loveMessage.getImage(), loveMessage.getMusic());
-                        message.saveOrUpdate();
-                        isSaved = true;
+                @Override
+                public void onCancelled(DatabaseError error) {
 
-                        if (progressDialog.isShowing()) {
-                            progressDialog.dismiss();
-                            Log.d(LOG_TAG, "After check and get");
-                        }
-
-                        // Nếu tính đến hôm nay lượng message ko đủ thì download.
-                        if (realm.where(LoveMessageObject.class).findAll().size() != (Utility.countDays(new DateTime()) - 721 + 1)) {
-                            Log.d(LOG_TAG, "Not enough and down");
-                            downloadMessageAndSave();
-                        }
-
-                        // notify.
-                        listener.gotMessageListener(message.getContent());
-                        notifyMessage(message);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-
-                    }
-                });
-            }
+                }
+            });
         }
     }
 
