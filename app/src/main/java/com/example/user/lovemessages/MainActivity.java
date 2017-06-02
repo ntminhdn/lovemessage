@@ -55,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
         rms.init(this);
         rms.load();
 
+        Log.d(LOG_TAG, "1  " + Utility.getNgayHienTai());
+        Log.d(LOG_TAG, "2  " + Utility.getValue());
+        Log.d(LOG_TAG, "3  " + Utility.countDays(new DateTime()) + "");
+
         addControl();
         Log.d(LOG_TAG, "On Create");
         if (rms.isFirstLaunchApp()) {
@@ -109,8 +113,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void downloadMessageAndSave() {
-        progressDialog.setTitle("Đang tải tất cả tin nhắn");
-        progressDialog.setMessage("Vui lòng đợi");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setMessage("Đang tải tất cả tin nhắn");
+        progressDialog.setMax(100);
 
         if (!progressDialog.isShowing()) {
             progressDialog.show();
@@ -124,7 +129,10 @@ public class MainActivity extends AppCompatActivity {
                     LoveMessageObject message = new LoveMessageObject(loveMessage.getContent(), loveMessage.getId(), loveMessage.getImage(), loveMessage.getMusic());
                     listMessage.add(message);
                     message.saveOrUpdate();
+
+                    progressDialog.setProgress((countMessage * 100) / Integer.valueOf(Utility.getValue()));
                     countMessage++;
+
                     Log.d(LOG_TAG, "Downloading");
                     if (progressDialog.isShowing() && countMessage == (Integer.valueOf(Utility.getValue()) + 1)) {
                         rms.increaseNumberOfLaunchApp();
@@ -135,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if (message.getDays() == Utility.countDays(new DateTime())) {
                         // notify.
-                        listener.gotMessageListener(message.getContent());
+                        listener.gotMessageListener(message);
                         notifyMessage(message);
                     }
                 }
@@ -178,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     // notify.
-                    listener.gotMessageListener(message.getContent());
+                    listener.gotMessageListener(message);
                     notifyMessage(message);
                 }
 
@@ -207,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public interface GotMessageListener {
-        void gotMessageListener(String content);
+        void gotMessageListener(LoveMessageObject content);
     }
 
 

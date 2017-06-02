@@ -119,7 +119,7 @@ public class MainFragment extends Fragment {
         imgPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (message != null || Utility.isNetworkAvailable(getContext())) {
+                if (message != null && Utility.isNetworkAvailable(getContext())) {
                     Intent intent = new Intent(getContext(), DetailActivity.class);
                     intent.putExtra("id", message.getId());
                     intent.putExtra("music", message.getMusic());
@@ -325,7 +325,6 @@ public class MainFragment extends Fragment {
 
     private void init() {
         message = Realm.getDefaultInstance().where(LoveMessageObject.class).equalTo("id", Utility.getNgayHienTai()).findFirst();
-
         if (message != null) {
             tvMessage.setText(message.getContent());
         }
@@ -333,8 +332,9 @@ public class MainFragment extends Fragment {
         // Lắng nghe khi MainActivity get message xong
         ((MainActivity) getActivity()).setListener(new MainActivity.GotMessageListener() {
             @Override
-            public void gotMessageListener(String content) {
-                tvMessage.setText(content);
+            public void gotMessageListener(LoveMessageObject content) {
+                message = content;
+                tvMessage.setText(content.getContent());
             }
         });
 
